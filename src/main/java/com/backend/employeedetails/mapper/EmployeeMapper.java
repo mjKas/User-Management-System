@@ -4,7 +4,7 @@ import com.backend.employeedetails.dto.EmployeeDto;
 import com.backend.employeedetails.entity.Employee;
 
 public class EmployeeMapper {
-    public static EmployeeDto mapEmpDto (Employee employee){
+    public static EmployeeDto mapEmpDto(Employee employee) {
         return new EmployeeDto(
                 employee.getId(),
                 employee.getFirstName(),
@@ -12,7 +12,8 @@ public class EmployeeMapper {
                 employee.getEmail()
         );
     }
-    public static Employee mepToEmployee(EmployeeDto employeeDto){
+
+    public static Employee mepToEmployee(EmployeeDto employeeDto) {
         return new Employee(
                 employeeDto.getId(),
                 employeeDto.getFirstName(),

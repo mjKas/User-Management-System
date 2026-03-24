@@ -16,25 +16,36 @@ import java.util.stream.Collectors;
 @Service
 //here AllArgsConstructor is needed to pass the objects of EmployeeRepository. If not using Lambok AllargsConstructor make an EmployeeService constructor and pass repository within.
 public class EmployeeServiceImpl implements EmployeeService {
-   private EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
+
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
         Employee employee = EmployeeMapper.mepToEmployee(employeeDto);
-        Employee  savedEmp = employeeRepository.save(employee);
+        Employee savedEmp = employeeRepository.save(employee);
         return EmployeeMapper.mapEmpDto(savedEmp);
     }
 
     @Override
     public EmployeeDto getEmployeeById(Long Id) {
-       Employee employee =  employeeRepository.findById(Id)
-                .orElseThrow(()-> new ResourceNotFoundException("Employee does not exists with the given ID: " +Id));
+        Employee employee = employeeRepository.findById(Id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee does not exists with the given ID: " + Id));
         return EmployeeMapper.mapEmpDto(employee);
     }
-    @Override
-    public List<EmployeeDto> getAllEmployees(){
-        List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map((employee) ->EmployeeMapper.mapEmpDto(employee))
-                .collect(Collectors.toList());
 
+    @Override
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream().map((employee) -> EmployeeMapper.mapEmpDto(employee))
+                .collect(Collectors.toList());
+    }
+//update user
+    public EmployeeDto updateEmployee(Long emlpoyeeId, EmployeeDto updatedEmp) {
+        Employee employee = employeeRepository.findById(emlpoyeeId).orElseThrow(
+                () -> new ResourceNotFoundException("Employee is not found with the ID: " + emlpoyeeId));
+        employee.setFirstName(updatedEmp.getFirstName());
+        employee.setLastName(updatedEmp.getLastName());
+        employee.setEmail(updatedEmp.getEmail());
+        Employee updatedEmpObj = employeeRepository.save(employee);
+        return EmployeeMapper.mapEmpDto(updatedEmpObj);
     }
 }
