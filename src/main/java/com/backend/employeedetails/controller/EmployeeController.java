@@ -5,10 +5,9 @@ import com.backend.employeedetails.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -22,4 +21,20 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmpDto, HttpStatus.CREATED);
     }
     //Get Employee By ID
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long empId){
+      EmployeeDto employeeDto =  employeeService.getEmployeeById(empId);
+        System.out.println("Controller hit with ID: " + empId);
+        return ResponseEntity.ok(employeeDto);
+}
+    //Get all users as a list
+    @GetMapping
+    public ResponseEntity<List<EmployeeDto>> getAllEmployee(){
+        List<EmployeeDto> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
+    }
+    @GetMapping("/test")
+    public String test() {
+        return "WORKING";
+    }
 }

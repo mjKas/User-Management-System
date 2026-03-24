@@ -9,6 +9,9 @@ import com.backend.employeedetails.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Service
 //here AllArgsConstructor is needed to pass the objects of EmployeeRepository. If not using Lambok AllargsConstructor make an EmployeeService constructor and pass repository within.
@@ -26,5 +29,12 @@ public class EmployeeServiceImpl implements EmployeeService {
        Employee employee =  employeeRepository.findById(Id)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee does not exists with the given ID: " +Id));
         return EmployeeMapper.mapEmpDto(employee);
+    }
+    @Override
+    public List<EmployeeDto> getAllEmployees(){
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream().map((employee) ->EmployeeMapper.mapEmpDto(employee))
+                .collect(Collectors.toList());
+
     }
 }
