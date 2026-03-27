@@ -36,11 +36,19 @@ public class EmployeeController {
         List<EmployeeDto> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }
+
     //Update user
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<EmployeeDto> updateEmployee( @PathVariable("id") Long id, @RequestBody EmployeeDto employeedto) {
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") Long id, @RequestBody EmployeeDto employeedto) {
         EmployeeDto updatedDTO = employeeService.updateEmployee(id, employeedto);
-               return new ResponseEntity<>(updatedDTO, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(updatedDTO, HttpStatus.ACCEPTED);
     }
 
+   //DeleteMapping
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long empId) {
+        employeeService.deleteEmployee(empId);
+        return  ResponseEntity.ok("Deleted Record");
+    }
 }
+
